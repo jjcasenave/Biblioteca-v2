@@ -1,5 +1,3 @@
-/*Refactoriza la clase Alumnos, extrayendo su interfaz y colocando la clase y la interfaz en el paquete adecuado. Realiza un commit.*/
-
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.memoria;
 
 import java.util.ArrayList;
@@ -9,8 +7,9 @@ import java.util.List;
 import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 
-public class Alumnos {
+public class Alumnos implements IAlumnos {
 
 	private List<Alumno> coleccionAlumnos;
 
@@ -18,7 +17,7 @@ public class Alumnos {
 		coleccionAlumnos = new ArrayList<>();
 	}
 
-	public List<Alumno> get() throws IllegalArgumentException, NullPointerException {
+	public List<Alumno> get() throws IllegalArgumentException, NullPointerException{
 		List<Alumno> alumnosOrdenados = copiaProfundaAlumnos();
 		alumnosOrdenados.sort(Comparator.comparing(Alumno::getCorreo));
 		return alumnosOrdenados;
@@ -36,8 +35,7 @@ public class Alumnos {
 		return coleccionAlumnos.size();
 	}
 
-	public void insertar(Alumno alumno)
-			throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
+	public void insertar(Alumno alumno) throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alumno nulo.");
 		}

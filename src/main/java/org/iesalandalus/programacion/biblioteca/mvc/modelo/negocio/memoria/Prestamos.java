@@ -1,7 +1,3 @@
-/*Refactoriza la clase Prestamos (y todas las necesarias para que todo siga funcionando igual)
- *para que utilice ArrayList en vez de Arrays. Realiza un commit.
- */
-
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.memoria;
 
 import java.time.LocalDate;
@@ -17,19 +13,15 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
 
-public class Prestamos {
+public class Prestamos implements IPrestamos {
 
 	private List<Prestamo> coleccionPrestamos;
 
 	public Prestamos() throws IllegalArgumentException, NullPointerException {
 		coleccionPrestamos = new ArrayList<>();
 	}
-
-	/*
-	 * Haz que los métodos get de la clase Prestamos se adecúen a la ordenación
-	 * pedida en los requisitos. Realiza un commit.
-	 */
 
 	public List<Prestamo> get() {
 		Comparator<Alumno> comparadorAlumno = Comparator.comparing(Alumno::getNombre);
@@ -40,10 +32,10 @@ public class Prestamos {
 		List<Prestamo> copiaPrestamos = copiaProfundaPrestamos();
 		copiaPrestamos.sort(comparadorPrestamo);
 		return copiaPrestamos;
-
+		
 	}
 
-	private List<Prestamo> copiaProfundaPrestamos() throws IllegalArgumentException, NullPointerException {
+	private List<Prestamo> copiaProfundaPrestamos() throws IllegalArgumentException, NullPointerException{
 		List<Prestamo> copiaPrestamos = new ArrayList<>();
 		for (Prestamo prestamo : coleccionPrestamos) {
 			copiaPrestamos.add(new Prestamo(prestamo));
@@ -54,7 +46,7 @@ public class Prestamos {
 	public int getTamano() {
 		return coleccionPrestamos.size();
 	}
-
+	
 	public List<Prestamo> get(Alumno alumno) {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
@@ -107,25 +99,17 @@ public class Prestamos {
 		copiaPrestamos.sort(comparadorPrestamo);
 		return copiaPrestamos;
 	}
-
-	/*
-	 * Añade a la clase Prestamos el método getEstadistiscaMensualPorCurso, que
-	 * devolverá un mapa con los puntos obtenidos por cada curso en un mes dado.
-	 * Añádelo en todas las clases necesarias para que se muestre como una opción
-	 * más del menú y se pueda ejecutar. Realiza un commit.
-	 */
-
+	
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		Map<Curso, Integer> estadisticasMensualesPorCurso = inicializarEstadisticas();
 		List<Prestamo> prestamosMensuales = get(fecha);
 		for (Prestamo prestamo : prestamosMensuales) {
 			Curso cursoAlumno = prestamo.getAlumno().getCurso();
-			estadisticasMensualesPorCurso.put(cursoAlumno,
-					estadisticasMensualesPorCurso.get(cursoAlumno) + Math.round(prestamo.getPuntos()));
+			estadisticasMensualesPorCurso.put(cursoAlumno, estadisticasMensualesPorCurso.get(cursoAlumno) + prestamo.getPuntos());
 		}
 		return estadisticasMensualesPorCurso;
 	}
-
+	
 	private Map<Curso, Integer> inicializarEstadisticas() {
 		Map<Curso, Integer> mapa = new EnumMap<>(Curso.class);
 		for (Curso curso : Curso.values()) {
@@ -138,14 +122,15 @@ public class Prestamos {
 		boolean fechaIgual = false;
 		int anoUno = fechaUno.getYear();
 		int anoDos = fechaDos.getYear();
-		if (anoUno == anoDos && fechaUno.getMonth().equals(fechaDos.getMonth())) {
+		if ( anoUno==anoDos && fechaUno.getMonth().equals(fechaDos.getMonth())) {
 			fechaIgual = true;
 		}
 		return fechaIgual;
 	}
 
-	public void prestar(Prestamo prestamo)
-			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+	
+
+	public void prestar(Prestamo prestamo) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
 		}
@@ -157,8 +142,7 @@ public class Prestamos {
 		}
 	}
 
-	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion)
-			throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
+	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede devolver un préstamo nulo.");
 		}
@@ -179,7 +163,7 @@ public class Prestamos {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un préstamo nulo.");
 		}
 		int indice = coleccionPrestamos.indexOf(prestamo);
-		if (indice == -1) {
+		if (indice == - 1) {
 			return null;
 		} else {
 			return new Prestamo(coleccionPrestamos.get(indice));
