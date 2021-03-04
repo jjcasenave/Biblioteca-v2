@@ -11,14 +11,14 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
-import org.iesalandalus.programacion.biblioteca.mvc.vista.Vista;
+import org.iesalandalus.programacion.biblioteca.mvc.vista.FactoriaVista;
 
 public class Controlador {
 
-	Vista vista;
+	FactoriaVista vista;
 	Modelo modelo;
 
-	public Controlador(Modelo modelo, Vista vista) {
+	public Controlador(Modelo modelo, FactoriaVista vista) {
 		if (modelo == null) {
 			throw new IllegalArgumentException("ERROR: El modelo no puede ser nulo.");
 		}

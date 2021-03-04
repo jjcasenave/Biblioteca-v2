@@ -1,15 +1,6 @@
-/*Crea el enumerado Opcion, en el paquete adecuado, cuyas instancias corresponderán con cada una de las opciones del menú de nuestra aplicación.
- *Cada instancia aceptará en su constructor una cadena correspondiente al mensaje que se mostrará por pantalla para dicha opción. 
- *Debes crear los atributos y métodos que se especifican en el diagrama, teniendo en cuenta que el método ejecutar es abstracto por
- *lo que en la declaración general no tendrá implementación, pero que deberá ser implementado en cada una de las instancias haciendo 
- *una llamada al correspondiente método de la clase Vista. El método getOpcionSegunOrdinal devolverá la instancia de Opcion que ocupe
- *el ordinal pasado por parámetro. El método esOrdinalValido devolverá un boolean indicando si el ordinal pasado por parámetro está 
- *dentro de los posibles ordinales. El método toString devolverá la cadena correspondiente a la concatenación del ordinal de la opción,
- *la cadena " .- " y el mensaje a mostrar por la opción en cuestión. Por último, el método setVista asignará el valor pasado al atributo
- *vista, que aunque aún no exista, crearás en el siguiente paso. Realiza el commit correspondiente.
- */
+package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
-package org.iesalandalus.programacion.biblioteca.mvc.vista;
+import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
 public enum Opcion {
 
@@ -17,7 +8,7 @@ public enum Opcion {
 		public void ejecutar() {
 			vista.insertarAlumno();
 		}
-	},
+	}, 
 	BUSCAR_ALUMNO("Buscar alumno") {
 		public void ejecutar() {
 			vista.buscarAlumno();
@@ -93,36 +84,41 @@ public enum Opcion {
 			vista.listarPrestamosFecha();
 		}
 	},
+	MOSTRAR_ESTADISTICA_MENSUAL_POR_CURSO("Mostrar estadísticas mensuales") {
+		public void ejecutar() {
+			vista.mostrarEstadisticaPorCurso();
+		}
+	},
 	SALIR("Salir") {
 		public void ejecutar() {
 			vista.terminar();
 		}
 	};
-
+	
 	private String mensaje;
-	private static Vista vista;
-
+	private static IVista vista;
+	
 	private Opcion(String opcion) {
 		this.mensaje = opcion;
 	}
-
+	
 	public abstract void ejecutar();
-
-	protected static void setVista(Vista vista) {
+	
+	protected static void setVista(IVista vista) {
 		Opcion.vista = vista;
 	}
-
+	
 	public static Opcion getOpcionSegunOrdinal(int opcion) {
 		if (esOrdinalValido(opcion))
 			return values()[opcion];
 		else
 			throw new IllegalArgumentException("Ordinal de la opción no válido");
 	}
-
+	
 	public static boolean esOrdinalValido(int opcion) {
-		return opcion <= values().length - 1 && opcion >= 0;
+		return opcion <= values().length -1 && opcion >= 0;
 	}
-
+	
 	public String toString() {
 		return String.format("%d.- %s", ordinal(), mensaje);
 	}
