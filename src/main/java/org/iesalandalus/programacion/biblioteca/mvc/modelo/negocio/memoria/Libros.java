@@ -1,7 +1,3 @@
-/*Refactoriza la clase Libros (y todas las necesarias para que todo siga funcionando igual)
- *para que utilice ArrayList en vez de Arrays. Realiza un commit.
- */
-
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.memoria;
 
 import java.util.ArrayList;
@@ -10,17 +6,18 @@ import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.AudioLibro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.LibroEscrito;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 
-public class Libros {
+public class Libros implements ILibros {
 
 	private List<Libro> coleccionLibros;
 	
 	public Libros() throws IllegalArgumentException, NullPointerException {
 		coleccionLibros = new ArrayList<>();
 	}
-	
-/*Haz que el método get de la clase Libros se adecúe a la ordenación pedida en los requisitos. Realiza un commit.*/
 	
 	public List<Libro> get() {
 		List<Libro> librosOrdenados = copiaProfundaLibros();
@@ -30,7 +27,11 @@ public class Libros {
 	private List<Libro> copiaProfundaLibros() throws NullPointerException, IllegalArgumentException {
 		List<Libro> copiaLibros = new ArrayList<>();
 		for (Libro libro : coleccionLibros) {
-			copiaLibros.add(new Libro(libro));
+			if (libro instanceof LibroEscrito) {
+				copiaLibros.add(new LibroEscrito((LibroEscrito) libro));
+			} else if (libro instanceof AudioLibro) {
+				copiaLibros.add(new AudioLibro((AudioLibro) libro));
+			}
 		}
 		return copiaLibros;
 	}
@@ -45,7 +46,11 @@ public class Libros {
 		}
 		int indice = coleccionLibros.indexOf(libro);
 		if (indice == -1) {
-			coleccionLibros.add(new Libro(libro));
+			if (libro instanceof LibroEscrito) {
+				coleccionLibros.add(new LibroEscrito((LibroEscrito) libro));
+			} else if (libro instanceof AudioLibro) {
+				coleccionLibros.add(new AudioLibro((AudioLibro) libro));
+			}
 		} else {
 			throw new OperationNotSupportedException("ERROR: Ya existe un libro con ese título y autor.");
 		}
@@ -59,7 +64,11 @@ public class Libros {
 		if (indice == -1) {
 			return null;
 		} else {
-			return new Libro(coleccionLibros.get(indice));
+			if (libro instanceof LibroEscrito) {
+				return new LibroEscrito((LibroEscrito) coleccionLibros.get(indice));
+			} else {
+				return new AudioLibro((AudioLibro) coleccionLibros.get(indice));
+			}
 		}
 	}
 	

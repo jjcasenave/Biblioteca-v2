@@ -1,3 +1,7 @@
+/*Refactoriza la clase Vista, 
+ * renombrándola, extrayendo su interfaz y colocando las clases y la 
+ * interfaz en los paquetes adecuados. Realiza un commit.*/
+
 package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
 import java.time.LocalDate;
