@@ -1,7 +1,6 @@
-/*Refactoriza la clase Alumnos (y todas las necesarias para que todo siga funcionando igual) 
- *para que utilice ArrayList en vez de Arrays. Realiza un commit.*/
+/*Refactoriza la clase Alumnos, extrayendo su interfaz y colocando la clase y la interfaz en el paquete adecuado. Realiza un commit.*/
 
-package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio;
+package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.memoria;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,9 +18,7 @@ public class Alumnos {
 		coleccionAlumnos = new ArrayList<>();
 	}
 
-/*Haz que el método get de la clase Alumnos se adecúe a la ordenación pedida en los requisitos. Realiza un commit.*/
-	
-	public List<Alumno> get() throws IllegalArgumentException, NullPointerException{
+	public List<Alumno> get() throws IllegalArgumentException, NullPointerException {
 		List<Alumno> alumnosOrdenados = copiaProfundaAlumnos();
 		alumnosOrdenados.sort(Comparator.comparing(Alumno::getCorreo));
 		return alumnosOrdenados;
@@ -39,7 +36,8 @@ public class Alumnos {
 		return coleccionAlumnos.size();
 	}
 
-	public void insertar(Alumno alumno) throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
+	public void insertar(Alumno alumno)
+			throws OperationNotSupportedException, IllegalArgumentException, NullPointerException {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alumno nulo.");
 		}
